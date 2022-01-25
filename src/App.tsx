@@ -1,8 +1,47 @@
 import React, {Component, useState} from "react"
 import { render } from "react-dom"
-import Map from './Map'
+import {MapContainer, TileLayer, Marker, Popup, useMapEvents} from 'react-leaflet';
 let lat = 0
 let lon = 0
+interface weatherFunction {
+  getWeather: any
+}
+const MyMap: React.FC<weatherFunction> =({getWeather}) => {
+  interface map {
+    loc: null,
+    setLoc: null
+  }
+  const [loc, setLoc] = useState([]);
+  useMapEvents({
+    // @ts-ignore
+    click: (e) => {
+      lat = e.latlng.lat
+      lon = e.latlng.lng
+      getWeather()
+      console.log(e)
+      console.log('test')
+    }
+
+  })
+  return null
+}
+const Map:React.FC<weatherFunction> = ({getWeather}) => {
+  return(
+      <MapContainer center={[59.505, 26]} zoom={13} scrollWheelZoom={true} id={'map'}>
+        <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+
+        <Marker position={[59.505, 26]}>
+          <Popup>
+            A pretty CSS3 popup. <br /> Easily customizable.
+          </Popup>
+        </Marker>
+        <MyMap getWeather={getWeather}/>
+      </MapContainer>
+  )
+}
+
 function App() {
 
   function getDay( index: number)
@@ -55,7 +94,7 @@ function App() {
   return (
 
         <div>
-          <Map/>
+          <Map getWeather={getWeather}/>
           <div id="map">
             <button onClick={getLocation}>get weather</button>
             <h1>{getMonth()}</h1>
