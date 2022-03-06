@@ -27,18 +27,20 @@ const MyMap: React.FC<weatherFunction> =({getWeather}) => {
 }
 const Map:React.FC<weatherFunction> = ({getWeather}) => {
   return(
+      <div id={'mapping'}>
       <MapContainer center={[59.505, 26]} zoom={13} scrollWheelZoom={true} id={'map'}>
         <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        <Marker position={[59.505, 26]}>
+        <Marker position={[lat, lon]}>
           <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
+            The Weather of this location iiis
           </Popup>
         </Marker>
         <MyMap getWeather={getWeather}/>
       </MapContainer>
+      </div>
   )
 }
 
@@ -93,17 +95,21 @@ function App() {
 
   return (
 
-        <div>
+        <div id={'results'}>
           <Map getWeather={getWeather}/>
           <div id="map">
-            <button onClick={getLocation}>get weather</button>
+            <button onClick={getLocation} id={'Location_Button'}>get weather</button>
             <h1>{getMonth()}</h1>
-            <p>Today: {showWeather(0)}</p>
-            <p>Tomorrow: {showWeather(0)}</p>
-            <p>{getDay(2)}: {showWeather(1)}</p>
-            <p>{getDay(3)}: {showWeather(3)}</p>
-            <p>{getDay(4)}: {showWeather(4)}</p>
-            <p>{getDay(5)}: {showWeather(5)}</p>
+            <div className={'Result_List'}>
+            <ul>
+              <li><p>Today: {showWeather(0)}</p></li>
+              <li><p>Tomorrow: {showWeather(0)}</p></li>
+              <li><p>{getDay(2)}: {showWeather(1)}</p></li>
+              <li><p>{getDay(3)}: {showWeather(3)}</p></li>
+              <li><p>{getDay(4)}: {showWeather(4)}</p></li>
+              <li><p>{getDay(5)}: {showWeather(5)}</p></li>
+            </ul>
+            </div>
           </div>
         </div>
 
